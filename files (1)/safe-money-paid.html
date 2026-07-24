@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paid acquisition plan — Safe Money</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F7F5EF; --card: #FFFFFF; --ink: #1A1917; --muted: #6E6B64; --faint: #97938A;
+    --line: #E0DCD2; --line-strong: #D2CDC1; --accent: #14805C; --accent-ink: #0F5E48;
+    --accent-fill: #E4F3EC; --track: #ECE9E1; --radius: 14px;
+    --meta: 40, 108, 162; --apple: 74, 74, 72;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #131311; --card: #1D1D1A; --ink: #EDEAE2; --muted: #9C9A92; --faint: #75736C;
+      --line: #302F2B; --line-strong: #3B3A35; --accent: #3FB489; --accent-ink: #8FD9BE;
+      --accent-fill: #143A2E; --track: #2A2925;
+      --meta: 118, 174, 224; --apple: 176, 174, 168;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: "Hanken Grotesk", sans-serif; -webkit-font-smoothing: antialiased;
+    padding: 44px 22px 60px; display: flex; justify-content: center;
+  }
+  .wrap { width: 100%; max-width: 960px; }
+
+  header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 30px; flex-wrap: wrap; }
+  .eyebrow { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 10px; }
+  header h1 { font-family: "Fraunces", serif; font-weight: 500; font-size: clamp(26px, 4vw, 36px); line-height: 1.1; letter-spacing: -0.015em; }
+  header h1 em { font-style: italic; color: var(--accent-ink); }
+  header p { margin-top: 12px; max-width: 60ch; color: var(--muted); font-size: 15px; line-height: 1.6; }
+  .tag {
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--faint); border: 1px dashed var(--line-strong); border-radius: 999px;
+    padding: 5px 11px; white-space: nowrap;
+  }
+
+  .section-label { font-family: "Fraunces", serif; font-size: 18px; font-weight: 500; letter-spacing: -0.01em; margin: 34px 0 4px; }
+  .section-note { color: var(--faint); font-size: 13px; margin-bottom: 16px; max-width: 70ch; line-height: 1.55; }
+
+  /* Trigger / phasing */
+  .phases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+  .ph { background: var(--card); border: 1px solid var(--line); border-radius: 11px; padding: 14px 15px; }
+  .ph.live { background: var(--accent-fill); border-color: color-mix(in srgb, var(--accent) 35%, transparent); }
+  .ph .w { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; color: var(--faint); }
+  .ph.live .w { color: var(--accent-ink); }
+  .ph .t { font-weight: 600; font-size: 14px; margin-top: 5px; }
+  .ph .s { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.45; }
+
+  .grid { display: grid; grid-template-columns: 1.25fr 1fr; gap: 13px; }
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 21px; }
+  .panel.wide { grid-column: 1 / -1; }
+  .panel h3 { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 14px; }
+
+  /* Media plan */
+  .mp { display: grid; grid-template-columns: 1.3fr repeat(3, 1fr); gap: 10px; align-items: center; padding: 11px 0; border-top: 1px solid var(--line); font-size: 13.5px; }
+  .mp.head { border-top: none; padding-top: 0; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--faint); font-weight: 600; }
+  .mp .ch { display: flex; align-items: center; gap: 8px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto; }
+  .dot.meta { background: rgb(var(--meta)); } .dot.apple { background: rgb(var(--apple)); }
+  .mp .nm { font-weight: 600; }
+  .mp .sm { font-size: 11px; color: var(--faint); }
+  .mp .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .mp.total { border-top: 1px solid var(--line-strong); font-weight: 700; }
+  .mp.total .num { font-family: "Fraunces", serif; font-size: 16px; letter-spacing: -0.01em; }
+
+  /* Test & scale */
+  .ts-row { display: flex; gap: 10px; align-items: stretch; }
+  .ts { flex: 1; border: 1px solid var(--line); border-radius: 11px; padding: 15px 16px; }
+  .ts.a { background: var(--accent-fill); border-color: color-mix(in srgb, var(--accent) 35%, transparent); }
+  .ts .amt { font-family: "Fraunces", serif; font-weight: 600; font-size: 26px; letter-spacing: -0.02em; }
+  .ts.a .amt { color: var(--accent-ink); }
+  .ts .lab { font-weight: 600; font-size: 13px; margin-top: 3px; }
+  .ts .s { font-size: 12px; color: var(--muted); margin-top: 5px; line-height: 1.5; }
+  .ts-arrow { display: flex; align-items: center; color: var(--faint); font-size: 18px; }
+
+  ul.clean { list-style: none; }
+  ul.clean li { font-size: 13.5px; line-height: 1.5; padding: 8px 0 8px 18px; position: relative; border-top: 1px solid var(--line); }
+  ul.clean li:first-child { border-top: none; }
+  ul.clean li::before { content: ""; position: absolute; left: 2px; top: 15px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  ul.clean li b { font-weight: 600; }
+  ul.clean li span { color: var(--faint); }
+
+  .kw { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .kw span { font-size: 12px; padding: 4px 10px; border-radius: 6px; background: var(--track); color: var(--muted); font-family: ui-monospace, monospace; }
+
+  .kpi-row { display: flex; justify-content: space-between; align-items: baseline; padding: 9px 0; border-top: 1px solid var(--line); }
+  .kpi-row:first-child { border-top: none; }
+  .kpi-row .m { font-size: 13px; color: var(--muted); max-width: 64%; }
+  .kpi-row .n { font-family: "Fraunces", serif; font-weight: 600; font-size: 17px; letter-spacing: -0.01em; }
+
+  footer { margin-top: 30px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 12px; color: var(--faint); line-height: 1.6; }
+
+  @media (max-width: 780px) {
+    .phases { grid-template-columns: 1fr; }
+    .grid { grid-template-columns: 1fr; }
+    .ts-row { flex-direction: column; }
+    .ts-arrow { transform: rotate(90deg); justify-content: center; }
+    .mp { grid-template-columns: 1fr 1fr; row-gap: 4px; }
+    .mp.head { display: none; }
+    .mp .num::before { content: attr(data-l) " "; font-size: 11px; color: var(--faint); text-transform: uppercase; letter-spacing: .05em; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .rise { opacity: 0; transform: translateY(9px); animation: r .5s cubic-bezier(.2,.7,.2,1) forwards; }
+    .phases.rise { animation-delay: .06s; } .grid.rise { animation-delay: .12s; }
+    @keyframes r { to { opacity: 1; transform: none; } }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="rise">
+      <div>
+        <div class="eyebrow">Safe Money · marketing lead</div>
+        <h1>Paid acquisition — <em>launch media plan</em></h1>
+        <p>Structured the transition from organic to paid: channel selection, CPI-based budget modelling, a test-then-scale spend framework, and the targets it would be judged against.</p>
+      </div>
+      <div class="tag">Planned, not launched</div>
+    </header>
+
+    <div class="section-label">When paid switches on</div>
+    <div class="section-note">Paid was deliberately gated behind organic validation — no spend until engagement data showed which creative worked, so ad budget amplified proven content instead of guessing.</div>
+    <div class="phases rise">
+      <div class="ph"><div class="w">Weeks 1–4</div><div class="t">Organic launch</div><div class="s">Hire team, build calendar, start posting across channels</div></div>
+      <div class="ph"><div class="w">Weeks 5–6</div><div class="t">Review &amp; refine</div><div class="s">Deep-dive engagement metrics; refine creative and messaging</div></div>
+      <div class="ph live"><div class="w">Weeks 7+</div><div class="t">Paid acquisition</div><div class="s">Launch on Instagram and the App Store, using top organic performers as ad creative</div></div>
+    </div>
+
+    <div class="section-label">Media plan</div>
+    <div class="section-note">Two channels chosen for a Canadian mobile-first app: Meta for interest and demographic targeting, Apple Search Ads to capture high-intent App Store search. Budgets modelled backwards from a CPI estimate and an install goal.</div>
+
+    <div class="grid rise">
+      <div class="panel wide">
+        <h3>Channel budget model</h3>
+        <div class="mp head"><span>Channel</span><span class="num">CPI estimate</span><span class="num">Target installs</span><span class="num">Budget</span></div>
+        <div class="mp">
+          <span class="ch"><span class="dot meta"></span><span><span class="nm">Instagram Ads</span><br><span class="sm">Meta Ads Manager</span></span></span>
+          <span class="num" data-l="CPI">$2.00</span><span class="num" data-l="Installs">500</span><span class="num" data-l="Budget">$1,500</span>
+        </div>
+        <div class="mp">
+          <span class="ch"><span class="dot apple"></span><span><span class="nm">App Store Ads</span><br><span class="sm">Apple Search Ads</span></span></span>
+          <span class="num" data-l="CPI">$3.00</span><span class="num" data-l="Installs">500</span><span class="num" data-l="Budget">$2,000</span>
+        </div>
+        <div class="mp total">
+          <span>Total</span><span class="num">—</span><span class="num" data-l="Installs">1,000</span><span class="num" data-l="Budget">$3,500</span>
+        </div>
+      </div>
+
+      <div class="panel wide">
+        <h3>Spend framework — test, then scale</h3>
+        <div class="ts-row">
+          <div class="ts a">
+            <div class="amt">$1,000</div>
+            <div class="lab">Two-week test</div>
+            <div class="s">Split proportionally across both channels to establish real CPI rather than trusting the estimate.</div>
+          </div>
+          <div class="ts-arrow">→</div>
+          <div class="ts">
+            <div class="amt">$2,500</div>
+            <div class="lab">Scale allocation</div>
+            <div class="s">Remaining budget reallocated toward whichever channel returned the lower actual CPI.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Targeting approach</h3>
+        <ul class="clean">
+          <li><b>Demographic</b> <span>— ages 27–42, parents and couples</span></li>
+          <li><b>Interest</b> <span>— personal finance, mental wellness</span></li>
+          <li><b>High-intent search</b> <span>— App Store + Google keywords</span>
+            <div class="kw"><span>best budgeting app Canada</span><span>financial anxiety help</span><span>budget app alternatives</span></div>
+          </li>
+          <li><b>Retargeting</b> <span>— site visitors and assessment completers who didn't convert</span></li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <h3>Creative &amp; targets</h3>
+        <ul class="clean">
+          <li><b>Creative source</b> <span>— top-performing organic posts adapted into ad formats</span></li>
+          <li><b>Primary metrics</b> <span>— CPI and CTR</span></li>
+        </ul>
+        <div style="margin-top:12px">
+          <div class="kpi-row"><span class="m">Total installs from launch spend</span><span class="n">1,000</span></div>
+          <div class="kpi-row"><span class="m">Blended cost per acquisition</span><span class="n">≤ $25</span></div>
+          <div class="kpi-row"><span class="m">Trial-to-paid conversion</span><span class="n">15%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      Media plan authored as Marketing Lead and documented in Notion. CPI figures are pre-launch estimates used to model budget; installs, CPA, and conversion figures are targets. The campaign had not gone live, so no delivered results are shown.
+    </footer>
+  </div>
+</body>
+</html>

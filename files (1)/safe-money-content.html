@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Content execution — Safe Money</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F7F5EF;
+    --card: #FFFFFF;
+    --ink: #1A1917;
+    --muted: #6E6B64;
+    --faint: #97938A;
+    --line: #E0DCD2;
+    --line-strong: #D2CDC1;
+    --accent-ink: #0F5E48;
+    --radius: 14px;
+    --ig: 194, 60, 118;
+    --x: 74, 74, 72;
+    --li: 40, 108, 162;
+    --blog: 18, 128, 92;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #131311;
+      --card: #1D1D1A;
+      --ink: #EDEAE2;
+      --muted: #9C9A92;
+      --faint: #75736C;
+      --line: #302F2B;
+      --line-strong: #3B3A35;
+      --accent-ink: #8FD9BE;
+      --ig: 232, 130, 178;
+      --x: 176, 174, 168;
+      --li: 118, 174, 224;
+      --blog: 116, 208, 168;
+    }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Hanken Grotesk", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    padding: 44px 22px 60px;
+    display: flex;
+    justify-content: center;
+  }
+  .wrap { width: 100%; max-width: 940px; }
+
+  header { margin-bottom: 34px; }
+  .eyebrow {
+    font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--muted); font-weight: 600; margin-bottom: 10px;
+  }
+  header h1 {
+    font-family: "Fraunces", serif; font-weight: 500;
+    font-size: clamp(26px, 4vw, 36px); line-height: 1.1; letter-spacing: -0.015em;
+  }
+  header h1 em { font-style: italic; color: var(--accent-ink); }
+  header p {
+    margin-top: 12px; max-width: 60ch; color: var(--muted);
+    font-size: 15px; line-height: 1.6;
+  }
+
+  .section-label {
+    font-family: "Fraunces", serif; font-size: 19px; font-weight: 500;
+    letter-spacing: -0.01em; margin: 40px 0 4px;
+  }
+  .section-note { color: var(--faint); font-size: 13.5px; margin-bottom: 18px; }
+
+  /* ---- Calendar ---- */
+  .week {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+  .day { min-width: 0; }
+  .day-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding: 0 3px 9px; border-bottom: 1px solid var(--line-strong); margin-bottom: 10px;
+  }
+  .day-head .d { font-weight: 600; font-size: 13px; letter-spacing: 0.02em; }
+  .day-head .dt { font-size: 11.5px; color: var(--faint); }
+
+  .post {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    padding: 11px 12px 12px;
+    margin-bottom: 10px;
+  }
+  .pill {
+    display: inline-block; font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.03em; padding: 2px 8px; border-radius: 999px; margin-bottom: 7px;
+  }
+  .pill.ig   { background: rgba(var(--ig),0.15);   color: rgb(var(--ig)); }
+  .pill.x    { background: rgba(var(--x),0.16);     color: rgb(var(--x)); }
+  .pill.li   { background: rgba(var(--li),0.15);    color: rgb(var(--li)); }
+  .pill.blog { background: rgba(var(--blog),0.15);  color: rgb(var(--blog)); }
+  .pill.idea { background: transparent; color: var(--faint); border: 1px solid var(--line-strong); }
+
+  .post .title {
+    font-weight: 600; font-size: 13.5px; line-height: 1.3; margin-bottom: 5px;
+  }
+  .post .msg { font-size: 12px; line-height: 1.45; color: var(--muted); }
+  .post .cta {
+    margin-top: 8px; font-size: 11px; font-weight: 600; color: var(--accent-ink);
+  }
+  .post .cta::before { content: "→ "; }
+
+  /* ---- Sample posts ---- */
+  .samples { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .sample {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 22px 22px 20px;
+  }
+  .sample .meta {
+    display: flex; align-items: center; gap: 9px; margin-bottom: 14px;
+    padding-bottom: 13px; border-bottom: 1px solid var(--line);
+  }
+  .sample .avatar {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-ink), color-mix(in srgb, var(--accent-ink) 55%, var(--paper)));
+    flex: 0 0 auto;
+  }
+  .sample .who { line-height: 1.25; }
+  .sample .who .n { font-weight: 600; font-size: 13.5px; }
+  .sample .who .h { font-size: 11.5px; color: var(--faint); }
+  .sample .body { font-size: 13.5px; line-height: 1.62; white-space: pre-line; }
+  .sample .body .q { color: var(--accent-ink); font-weight: 600; }
+
+  footer {
+    margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--line);
+    font-size: 12.5px; color: var(--faint); line-height: 1.6;
+  }
+
+  @media (max-width: 760px) {
+    .week { grid-template-columns: 1fr; gap: 0; }
+    .day { margin-bottom: 22px; }
+    .samples { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .rise { opacity: 0; transform: translateY(9px); animation: r .5s cubic-bezier(.2,.7,.2,1) forwards; }
+    header.rise { animation-delay: .02s; }
+    .week.rise { animation-delay: .1s; }
+    .samples.rise { animation-delay: .16s; }
+    @keyframes r { to { opacity: 1; transform: none; } }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="rise">
+      <div class="eyebrow">Safe Money · marketing lead</div>
+      <h1>Content execution — <em>Relaunch Spark</em></h1>
+      <p>Week one of the relaunch: planned, written, and scheduled across four channels for a student-facing personal-finance app. Every post below is real — content idea, message, and call to action mapped to a channel and a day.</p>
+    </header>
+
+    <div class="section-label">The week at a glance</div>
+    <div class="section-note">One editorial week — Mon Aug 25 to Fri Aug 29 — built to open with a multi-channel launch day and land on a long-form blog.</div>
+
+    <div class="week rise">
+      <!-- MON -->
+      <div class="day">
+        <div class="day-head"><span class="d">Mon</span><span class="dt">Aug 25</span></div>
+        <div class="post">
+          <span class="pill ig">Instagram</span>
+          <div class="title">Relaunch for student budgets</div>
+          <div class="msg">AI sorts your expenses, so there's time for studies — no stress, just clarity.</div>
+          <div class="cta">Try free now</div>
+        </div>
+        <div class="post">
+          <span class="pill x">X</span>
+          <div class="title">Relaunch for student life</div>
+          <div class="msg">AI makes budgeting easy, leaving time for what matters.</div>
+          <div class="cta">Try now</div>
+        </div>
+        <div class="post">
+          <span class="pill li">LinkedIn</span>
+          <div class="title">Budgeting for career prep</div>
+          <div class="msg">Build a "career prep fund" so opportunity never catches you scrambling.</div>
+          <div class="cta">Start smarter</div>
+        </div>
+      </div>
+      <!-- TUE -->
+      <div class="day">
+        <div class="day-head"><span class="d">Tue</span><span class="dt">Aug 26</span></div>
+        <div class="post">
+          <span class="pill idea">Concept</span>
+          <div class="title">Guilt-free spending</div>
+          <div class="msg">Spend on coffee guilt-free with clear AI limits.</div>
+          <div class="cta">Start today</div>
+        </div>
+        <div class="post">
+          <span class="pill idea">Concept</span>
+          <div class="title">Tackle student debt stress</div>
+          <div class="msg">AI forecasts cash flow to help dodge the pitfalls of a $15k loan.</div>
+          <div class="cta">Start today</div>
+        </div>
+        <div class="post">
+          <span class="pill li">LinkedIn</span>
+          <div class="title">Privacy for student data</div>
+          <div class="msg">Your savings stay yours — and so does your data. PIPEDA-compliant.</div>
+          <div class="cta">Explore now</div>
+        </div>
+      </div>
+      <!-- WED -->
+      <div class="day">
+        <div class="day-head"><span class="d">Wed</span><span class="dt">Aug 27</span></div>
+        <div class="post">
+          <span class="pill idea">Concept</span>
+          <div class="title">Roommate bill sync</div>
+          <div class="msg">Split bills with roommates easily via Aligned Accounts.</div>
+          <div class="cta">Sync now</div>
+        </div>
+        <div class="post">
+          <span class="pill idea">Concept</span>
+          <div class="title">AI savings for students</div>
+          <div class="msg">AI spots leaks — like unused subscriptions — in seconds.</div>
+          <div class="cta">Try it</div>
+        </div>
+        <div class="post">
+          <span class="pill idea">Concept</span>
+          <div class="title">AI answers for tight budgets</div>
+          <div class="msg">Ask the AI: "Can I afford this?" Instant, judgment-free tips.</div>
+          <div class="cta">Test it now</div>
+        </div>
+      </div>
+      <!-- THU -->
+      <div class="day">
+        <div class="day-head"><span class="d">Thu</span><span class="dt">Aug 28</span></div>
+        <div class="post">
+          <span class="pill idea">Concept</span>
+          <div class="title">Track small wins</div>
+          <div class="msg">Every dollar saved counts — track wins with the relaunch.</div>
+          <div class="cta">Test it</div>
+        </div>
+        <div class="post">
+          <span class="pill idea">Concept</span>
+          <div class="title">Expert tips for students</div>
+          <div class="msg">"Money stress is real." AI plus therapy support for students.</div>
+          <div class="cta">Join the mission</div>
+        </div>
+        <div class="post">
+          <span class="pill idea">Concept</span>
+          <div class="title">Mental load quiz</div>
+          <div class="msg">Take a quick quiz for tailored tips to ease student money stress.</div>
+          <div class="cta">Relaunch your calm</div>
+        </div>
+      </div>
+      <!-- FRI -->
+      <div class="day">
+        <div class="day-head"><span class="d">Fri</span><span class="dt">Aug 29</span></div>
+        <div class="post">
+          <span class="pill blog">Blog</span>
+          <div class="title">Safe Money's Relaunch: Stress-Free Budgeting for Canadian Students</div>
+          <div class="msg">Long-form: AI-driven budgeting, a student saving $50 on subs. SEO target — "student budgeting app."</div>
+          <div class="cta">Sign up for trial</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">Selected posts, as written</div>
+    <div class="section-note">Two pieces taken from the week above, in full — the actual copy, not a summary.</div>
+
+    <div class="samples rise">
+      <div class="sample">
+        <div class="meta">
+          <div class="avatar"></div>
+          <div class="who"><div class="n">Safe Money</div><div class="h">LinkedIn · Tue Aug 26</div></div>
+        </div>
+        <div class="body">🔒 Your data shouldn't be tuition fees for "free" apps
+
+As students, we hand over so much personal info without thinking twice — signing up for classes, downloading "study hacks," even just using campus Wi-Fi. 👀 But here's the catch: a lot of platforms trade that data like currency.
+
+That's why I care about using apps that put privacy first. With Safe Money, my savings stay mine — and so does my data. No selling, no sneaky tracking, just a tool that helps me stack up for goals (like career prep 👔 or travel ✈️) without worrying about what's happening behind the scenes.
+
+Because let's be real: peace of mind hits different when you know your money and your info are safe.
+
+<span class="q">👉 Would you trust your savings with an app that doesn't value your privacy?</span></div>
+      </div>
+
+      <div class="sample">
+        <div class="meta">
+          <div class="avatar"></div>
+          <div class="who"><div class="n">Safe Money</div><div class="h">LinkedIn · Mon Aug 25</div></div>
+        </div>
+        <div class="body">💸 Budgeting for Career Prep = Future You Winning
+
+We always budget for rent, food, coffee runs (because, priorities ☕). But how often do we budget for our career glow-up? 👀
+
+Think about it: 📚 that course you've been eyeing · 👔 a fit that screams "hire me" · 📄 a resume/portfolio upgrade · 🌐 networking that actually moves the needle. These cost $$, and waiting till the last minute = stress.
+
+That's why I started a little "Career Prep Fund" on Safe Money. It's the easiest way to stash money aside without thinking about it — so when an opportunity pops up, I'm not scrambling, I'm ready.
+
+🔑 Pro tip: investing in yourself isn't an expense, it's compounding returns.
+
+<span class="q">👉 What would you save for in your career prep fund?</span></div>
+      </div>
+    </div>
+
+    <footer>
+      Real work from the Safe Money relaunch. Content planned in Notion, produced against a brand guidebook and SOPs, and scheduled through Buffer across Instagram, X, LinkedIn, and the blog.
+    </footer>
+  </div>
+</body>
+</html>

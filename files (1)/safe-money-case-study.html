@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Safe Money — marketing case study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F7F5EF; --card: #FFFFFF; --ink: #1A1917; --muted: #6E6B64; --faint: #97938A;
+    --line: #E0DCD2; --line-strong: #D2CDC1; --accent: #14805C; --accent-ink: #0F5E48;
+    --accent-fill: #E4F3EC; --track: #ECE9E1; --radius: 16px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #131311; --card: #1D1D1A; --ink: #EDEAE2; --muted: #9C9A92; --faint: #75736C;
+      --line: #302F2B; --line-strong: #3B3A35; --accent: #3FB489; --accent-ink: #8FD9BE;
+      --accent-fill: #143A2E; --track: #2A2925;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: "Hanken Grotesk", sans-serif; -webkit-font-smoothing: antialiased;
+    padding: 56px 22px 80px; display: flex; justify-content: center;
+  }
+  .wrap { width: 100%; max-width: 1000px; }
+
+  /* ---------- Hero ---------- */
+  .hero { margin-bottom: 40px; }
+  .eyebrow { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 14px; }
+  .hero h1 { font-family: "Fraunces", serif; font-weight: 500; font-size: clamp(32px, 6vw, 52px); line-height: 1.05; letter-spacing: -0.02em; }
+  .hero h1 em { font-style: italic; color: var(--accent-ink); }
+  .hero .lede { margin-top: 18px; max-width: 60ch; font-size: 17px; line-height: 1.6; color: var(--muted); }
+
+  /* ---------- At a glance ---------- */
+  .glance { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; margin-bottom: 46px; }
+  .glance .g { padding: 18px 20px; border-left: 1px solid var(--line); }
+  .glance .g:first-child { border-left: none; }
+  .glance .l { font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--faint); font-weight: 600; margin-bottom: 6px; }
+  .glance .v { font-size: 13.5px; line-height: 1.5; }
+  .glance .v b { font-weight: 600; }
+
+  /* ---------- Prose ---------- */
+  .block { max-width: 66ch; margin-bottom: 44px; }
+  .block h2 { font-family: "Fraunces", serif; font-weight: 500; font-size: 25px; letter-spacing: -0.015em; margin-bottom: 14px; }
+  .block p { font-size: 15.5px; line-height: 1.7; color: var(--muted); }
+  .block p + p { margin-top: 13px; }
+  .block p b, .block p strong { color: var(--ink); font-weight: 600; }
+
+  .owned { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; max-width: 720px; margin-bottom: 52px; }
+  .ow { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 15px 17px; }
+  .ow .t { font-weight: 600; font-size: 14px; }
+  .ow .s { font-size: 12.5px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+
+  /* ---------- Workstream sections ---------- */
+  .ws { margin-bottom: 56px; }
+  .ws-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 12px; }
+  .ws-num { font-family: "Fraunces", serif; font-weight: 600; font-size: 14px; color: var(--accent-ink); letter-spacing: 0.04em; }
+  .ws-head h2 { font-family: "Fraunces", serif; font-weight: 500; font-size: 27px; letter-spacing: -0.015em; line-height: 1.15; }
+  .ws-frame { max-width: 68ch; font-size: 15.5px; line-height: 1.7; color: var(--muted); margin-bottom: 22px; }
+  .ws-frame b { color: var(--ink); font-weight: 600; }
+
+  .artifact {
+    border: 1px solid var(--line-strong); border-radius: var(--radius);
+    overflow: hidden; background: var(--card);
+  }
+  .artifact iframe { display: block; width: 100%; border: 0; height: 900px; }
+  .artifact-bar {
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    padding: 10px 16px; border-top: 1px solid var(--line);
+    font-size: 12px; color: var(--faint); background: var(--paper);
+  }
+  .artifact-bar a { color: var(--accent-ink); text-decoration: none; font-weight: 600; }
+  .artifact-bar a:hover { text-decoration: underline; }
+
+  /* ---------- Close ---------- */
+  .close { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px 30px; max-width: 800px; }
+  .close h2 { font-family: "Fraunces", serif; font-weight: 500; font-size: 23px; letter-spacing: -0.015em; margin-bottom: 14px; }
+  .close ul { list-style: none; }
+  .close li { font-size: 14.5px; line-height: 1.6; padding: 10px 0 10px 20px; position: relative; border-top: 1px solid var(--line); color: var(--muted); }
+  .close li:first-child { border-top: none; }
+  .close li::before { content: ""; position: absolute; left: 2px; top: 18px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .close li b { color: var(--ink); font-weight: 600; }
+
+  footer { margin-top: 46px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--faint); line-height: 1.65; max-width: 78ch; }
+
+  @media (max-width: 860px) {
+    .glance { grid-template-columns: 1fr 1fr; }
+    .glance .g:nth-child(3) { border-left: none; }
+    .glance .g:nth-child(n+3) { border-top: 1px solid var(--line); }
+    .owned { grid-template-columns: 1fr; }
+    .artifact iframe { height: 1400px; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .rise { opacity: 0; transform: translateY(10px); animation: r .55s cubic-bezier(.2,.7,.2,1) forwards; }
+    @keyframes r { to { opacity: 1; transform: none; } }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ 1. HERO ============ -->
+  <div class="hero rise">
+    <div class="eyebrow">Case study · marketing lead</div>
+    <h1>Building a marketing function <em>from scratch</em></h1>
+    <p class="lede">Safe Money is a Canadian personal-finance app built on a psychology-first idea: budgeting fails because of mental load, not maths. I led marketing — setting the strategy, hiring and running the content team, and building the system that took the brand from no marketing at all to a live multi-channel launch.</p>
+  </div>
+
+  <!-- ============ 2. AT A GLANCE ============ -->
+  <div class="glance rise">
+    <div class="g"><div class="l">Role</div><div class="v"><b>Marketing Lead</b><br>Owned strategy through execution</div></div>
+    <div class="g"><div class="l">Team</div><div class="v">Hired &amp; managed a <b>content writer</b> and <b>graphic designer</b></div></div>
+    <div class="g"><div class="l">Channels</div><div class="v">Instagram, LinkedIn, X, blog, email, paid</div></div>
+    <div class="g"><div class="l">Tools</div><div class="v">Notion, Airtable, Buffer, Meta Ads, Apple Search Ads</div></div>
+  </div>
+
+  <!-- ============ 3. SITUATION ============ -->
+  <div class="block">
+    <h2>The situation</h2>
+    <p>Safe Money had a product and a point of view, but no marketing function — no positioning, no content, no channels running, and no one producing. The brand was heading toward a relaunch with nothing to launch <em>with</em>.</p>
+    <p>The job wasn't to run a campaign. It was to <b>build the thing that runs campaigns</b>: work out who the product was for, decide what the brand stood for, hire the people, put a production system around them, and get content shipping on a reliable cadence — then plan the paid layer on top of it.</p>
+  </div>
+
+  <div class="block">
+    <h2>What I owned</h2>
+  </div>
+  <div class="owned">
+    <div class="ow"><div class="t">Strategy &amp; positioning</div><div class="s">Market research, competitive analysis, brand positioning, personas, content pillars</div></div>
+    <div class="ow"><div class="t">Team &amp; process</div><div class="s">Hiring, brand guidebook, SOPs, weekly production cadence</div></div>
+    <div class="ow"><div class="t">Content execution</div><div class="s">Editorial calendar, copywriting, scheduling across four channels</div></div>
+    <div class="ow"><div class="t">Paid &amp; measurement</div><div class="s">Media plan, budget modelling, KPI framework, stakeholder reporting</div></div>
+  </div>
+
+  <!-- ============ 4. WORKSTREAMS ============ -->
+
+  <!-- 01 Strategy -->
+  <div class="ws">
+    <div class="ws-head"><span class="ws-num">01</span><h2>Strategy</h2></div>
+    <p class="ws-frame">Before anything could be produced, the brand needed a reason to be chosen. I ran the market and competitor analysis, and landed on a position that didn't compete on features — <b>"Money Without The Mental Load"</b> — then built the audience, pillar, channel and budget framework the whole team executed against.</p>
+    <div class="artifact">
+      <iframe src="safe-money-strategy.html" title="Marketing strategy — Safe Money" loading="lazy"></iframe>
+      <div class="artifact-bar"><span>Strategy framework · authored in Notion, referenced by the team</span><a href="safe-money-strategy.html" target="_blank">Open full →</a></div>
+    </div>
+  </div>
+
+  <!-- 02 Content -->
+  <div class="ws">
+    <div class="ws-head"><span class="ws-num">02</span><h2>Content execution</h2></div>
+    <p class="ws-frame">Strategy only counts if something ships. This is the <b>Relaunch Spark</b> week — planned, written, and scheduled across Instagram, LinkedIn, X and the blog, with a multi-channel launch day and a long-form SEO piece to close. Two posts are shown in full, as written.</p>
+    <div class="artifact">
+      <iframe src="safe-money-content.html" title="Content execution — Safe Money" loading="lazy"></iframe>
+      <div class="artifact-bar"><span>Editorial calendar and copy · produced against the brand guidebook</span><a href="safe-money-content.html" target="_blank">Open full →</a></div>
+    </div>
+  </div>
+
+  <!-- 03 Paid -->
+  <div class="ws">
+    <div class="ws-head"><span class="ws-num">03</span><h2>Paid acquisition</h2></div>
+    <p class="ws-frame">Paid was deliberately gated behind organic results — no spend until engagement data showed which creative worked, so budget amplified proven content instead of guessing. I modelled the budget backwards from CPI estimates and structured it as a <b>test-then-scale</b> split, so the majority of spend followed real performance rather than an estimate.</p>
+    <div class="artifact">
+      <iframe src="safe-money-paid.html" title="Paid acquisition plan — Safe Money" loading="lazy"></iframe>
+      <div class="artifact-bar"><span>Launch media plan · planned, campaign did not go live</span><a href="safe-money-paid.html" target="_blank">Open full →</a></div>
+    </div>
+  </div>
+
+  <!-- 04 Measurement -->
+  <div class="ws">
+    <div class="ws-head"><span class="ws-num">04</span><h2>Measurement</h2></div>
+    <p class="ws-frame">I set the KPI framework — reach, engagement rate, click-through, sign-ups — and a weekly reporting cadence to stakeholders. This is the reporting format built for it: not just numbers, but the <b>read on what they mean and what to change next week</b>.</p>
+    <div class="artifact">
+      <iframe src="safe-money-dashboard.html" title="Performance dashboard — Safe Money" loading="lazy"></iframe>
+      <div class="artifact-bar"><span>Reporting format · KPIs and structure real, figures illustrative</span><a href="safe-money-dashboard.html" target="_blank">Open full →</a></div>
+    </div>
+  </div>
+
+  <!-- ============ 5. CLOSE ============ -->
+  <div class="close">
+    <h2>Where it landed</h2>
+    <ul>
+      <li><b>Built the marketing function from zero</b> — positioning, personas, pillars and channel plan where none existed.</li>
+      <li><b>Stood up a production system</b> — brand guidebook and SOPs that let a two-person team produce without me in every loop.</li>
+      <li><b>Shipped a live multi-channel relaunch week</b> — planned, written and scheduled across four channels.</li>
+      <li><b>Scoped the paid layer</b> — media plan, CPI model and test-and-scale framework, ready to launch behind organic validation.</li>
+      <li><b>Honest limit:</b> the paid campaign had not gone live during my time on it, so this case study shows planning and organic execution — not paid results.</li>
+    </ul>
+  </div>
+
+  <footer>
+    All strategy, content and media planning work shown here was authored by me as Marketing Lead and documented in the company's Notion workspace. Where figures are targets, estimates or illustrative placeholders rather than delivered results, each artifact says so on its face.
+  </footer>
+
+</div>
+
+<script>
+  // Auto-fit embedded artifact frames to their content height (same-origin only).
+  function fit(frame) {
+    try {
+      var d = frame.contentDocument;
+      if (!d) return;
+      var h = Math.max(d.body.scrollHeight, d.documentElement.scrollHeight);
+      if (h > 50) frame.style.height = (h + 8) + "px";
+    } catch (e) { /* cross-origin or file:// — keep CSS fallback height */ }
+  }
+  document.querySelectorAll(".artifact iframe").forEach(function (f) {
+    f.addEventListener("load", function () {
+      fit(f);
+      setTimeout(function () { fit(f); }, 350);
+    });
+    if (f.contentDocument && f.contentDocument.readyState === "complete") fit(f);
+  });
+  var t;
+  window.addEventListener("resize", function () {
+    clearTimeout(t);
+    t = setTimeout(function () {
+      document.querySelectorAll(".artifact iframe").forEach(fit);
+    }, 160);
+  });
+</script>
+</body>
+</html>

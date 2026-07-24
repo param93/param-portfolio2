@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Performance dashboard — Safe Money</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F7F5EF;
+    --card: #FFFFFF;
+    --ink: #1A1917;
+    --muted: #6E6B64;
+    --faint: #97938A;
+    --line: #E0DCD2;
+    --line-strong: #D2CDC1;
+    --accent: #14805C;
+    --accent-ink: #0F5E48;
+    --accent-fill: #E4F3EC;
+    --up: #157347;
+    --track: #ECE9E1;
+    --radius: 14px;
+    --ig: 194, 60, 118;
+    --x: 74, 74, 72;
+    --li: 40, 108, 162;
+    --blog: 18, 128, 92;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #131311; --card: #1D1D1A; --ink: #EDEAE2; --muted: #9C9A92;
+      --faint: #75736C; --line: #302F2B; --line-strong: #3B3A35;
+      --accent: #3FB489; --accent-ink: #8FD9BE; --accent-fill: #143A2E;
+      --up: #57C08A; --track: #2A2925;
+      --ig: 232, 130, 178; --x: 176, 174, 168; --li: 118, 174, 224; --blog: 116, 208, 168;
+    }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: "Hanken Grotesk", sans-serif; -webkit-font-smoothing: antialiased;
+    padding: 44px 22px 60px; display: flex; justify-content: center;
+  }
+  .wrap { width: 100%; max-width: 940px; }
+
+  header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 30px; flex-wrap: wrap; }
+  .eyebrow { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 10px; }
+  header h1 { font-family: "Fraunces", serif; font-weight: 500; font-size: clamp(25px, 4vw, 34px); line-height: 1.1; letter-spacing: -0.015em; }
+  header h1 em { font-style: italic; color: var(--accent-ink); }
+  header .sub { margin-top: 10px; color: var(--muted); font-size: 14px; }
+  .tag {
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--faint); border: 1px dashed var(--line-strong); border-radius: 999px;
+    padding: 5px 11px; white-space: nowrap;
+  }
+
+  /* KPI row */
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 14px; }
+  .kpi { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 17px 15px; }
+  .kpi .k { font-size: 12px; color: var(--muted); font-weight: 500; }
+  .kpi .v { font-family: "Fraunces", serif; font-weight: 500; font-size: 30px; letter-spacing: -0.02em; margin: 6px 0 4px; }
+  .kpi .d { font-size: 12px; font-weight: 600; color: var(--up); }
+  .kpi .d span { color: var(--faint); font-weight: 500; }
+
+  .grid2 { display: grid; grid-template-columns: 1.35fr 1fr; gap: 14px; }
+
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 21px; }
+  .panel h3 { font-family: "Fraunces", serif; font-weight: 500; font-size: 16px; margin-bottom: 3px; letter-spacing: -0.01em; }
+  .panel .h-note { font-size: 12px; color: var(--faint); margin-bottom: 16px; }
+
+  /* Channel table */
+  .row { display: grid; grid-template-columns: 1.1fr 1fr auto; align-items: center; gap: 10px; padding: 11px 0; border-top: 1px solid var(--line); }
+  .row:first-of-type { border-top: none; }
+  .ch { display: flex; align-items: center; gap: 8px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto; }
+  .dot.ig { background: rgb(var(--ig)); } .dot.x { background: rgb(var(--x)); }
+  .dot.li { background: rgb(var(--li)); } .dot.blog { background: rgb(var(--blog)); }
+  .ch .nm { font-weight: 600; font-size: 13.5px; }
+  .ch .sm { font-size: 11px; color: var(--faint); }
+  .bar-wrap { }
+  .bar-track { height: 7px; background: var(--track); border-radius: 4px; overflow: hidden; }
+  .bar-fill { height: 100%; background: var(--accent); border-radius: 4px; }
+  .bar-lbl { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .er { font-weight: 700; font-size: 14px; text-align: right; min-width: 46px; }
+
+  /* Weekly trend */
+  .trend { display: flex; align-items: flex-end; gap: 9px; height: 130px; margin-top: 6px; }
+  .col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 7px; }
+  .col .stalk { width: 100%; max-width: 34px; background: var(--accent-fill); border: 1px solid var(--accent); border-bottom: none; border-radius: 6px 6px 0 0; }
+  .col .cl { font-size: 11px; color: var(--faint); font-weight: 500; }
+  .col .cv { font-size: 10.5px; color: var(--muted); }
+
+  /* Insight */
+  .insight { margin-top: 14px; background: var(--accent-fill); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: var(--radius); padding: 18px 20px; }
+  .insight .l { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; color: var(--accent-ink); margin-bottom: 8px; }
+  .insight p { font-size: 13.5px; line-height: 1.6; color: var(--ink); }
+  .insight p + p { margin-top: 8px; }
+  .insight strong { color: var(--accent-ink); }
+
+  footer { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 12px; color: var(--faint); line-height: 1.6; }
+
+  @media (max-width: 760px) {
+    .kpis { grid-template-columns: 1fr 1fr; }
+    .grid2 { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .rise { opacity: 0; transform: translateY(9px); animation: r .5s cubic-bezier(.2,.7,.2,1) forwards; }
+    .kpis.rise { animation-delay: .06s; } .grid2.rise { animation-delay: .12s; } .insight.rise { animation-delay: .18s; }
+    @keyframes r { to { opacity: 1; transform: none; } }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="rise">
+      <div>
+        <div class="eyebrow">Safe Money · campaign reporting</div>
+        <h1>Performance — <em>Relaunch Spark</em></h1>
+        <div class="sub">Week 1 · Aug 25–29 · Instagram, LinkedIn, X, Blog</div>
+      </div>
+      <div class="tag">Illustrative data</div>
+    </header>
+
+    <div class="kpis rise">
+      <div class="kpi">
+        <div class="k">Total reach</div>
+        <div class="v">9,640</div>
+        <div class="d">+20% <span>vs. wk-1 goal</span></div>
+      </div>
+      <div class="kpi">
+        <div class="k">Avg. engagement</div>
+        <div class="v">5.4%</div>
+        <div class="d">+0.9pt <span>vs. goal</span></div>
+      </div>
+      <div class="kpi">
+        <div class="k">Link clicks</div>
+        <div class="v">478</div>
+        <div class="d">+12% <span>vs. goal</span></div>
+      </div>
+      <div class="kpi">
+        <div class="k">Trial sign-ups</div>
+        <div class="v">66</div>
+        <div class="d">+10% <span>vs. goal</span></div>
+      </div>
+    </div>
+
+    <div class="grid2 rise">
+      <div class="panel">
+        <h3>By channel</h3>
+        <div class="h-note">Reach and engagement rate across the four launch channels.</div>
+
+        <div class="row">
+          <div class="ch"><span class="dot ig"></span><div><div class="nm">Instagram</div><div class="sm">3 posts</div></div></div>
+          <div class="bar-wrap"><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><div class="bar-lbl">4,200 reach · 190 clicks · 22 sign-ups</div></div>
+          <div class="er">5.8%</div>
+        </div>
+        <div class="row">
+          <div class="ch"><span class="dot li"></span><div><div class="nm">LinkedIn</div><div class="sm">3 posts</div></div></div>
+          <div class="bar-wrap"><div class="bar-track"><div class="bar-fill" style="width:62%"></div></div><div class="bar-lbl">2,600 reach · 150 clicks · 18 sign-ups</div></div>
+          <div class="er">7.4%</div>
+        </div>
+        <div class="row">
+          <div class="ch"><span class="dot x"></span><div><div class="nm">X</div><div class="sm">3 posts</div></div></div>
+          <div class="bar-wrap"><div class="bar-track"><div class="bar-fill" style="width:45%"></div></div><div class="bar-lbl">1,900 reach · 58 clicks · 6 sign-ups</div></div>
+          <div class="er">2.1%</div>
+        </div>
+        <div class="row">
+          <div class="ch"><span class="dot blog"></span><div><div class="nm">Blog</div><div class="sm">1 post</div></div></div>
+          <div class="bar-wrap"><div class="bar-track"><div class="bar-fill" style="width:22%"></div></div><div class="bar-lbl">940 views · 80 clicks · 20 sign-ups</div></div>
+          <div class="er">—</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Daily reach</h3>
+        <div class="h-note">Launch day peaks, blog re-lifts on Friday.</div>
+        <div class="trend">
+          <div class="col"><div class="stalk" style="height:100%"></div><div class="cv">3.2k</div><div class="cl">Mon</div></div>
+          <div class="col"><div class="stalk" style="height:66%"></div><div class="cv">2.1k</div><div class="cl">Tue</div></div>
+          <div class="col"><div class="stalk" style="height:56%"></div><div class="cv">1.8k</div><div class="cl">Wed</div></div>
+          <div class="col"><div class="stalk" style="height:44%"></div><div class="cv">1.4k</div><div class="cl">Thu</div></div>
+          <div class="col"><div class="stalk" style="height:35%"></div><div class="cv">1.1k</div><div class="cl">Fri</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight rise">
+      <div class="l">Insight → recommendation</div>
+      <p><strong>LinkedIn punched above its weight.</strong> It reached ~40% fewer people than Instagram but drove the highest engagement rate (7.4%) and nearly as many sign-ups — the career-prep and privacy posts resonated with the student-professional audience.</p>
+      <p><strong>Recommendation:</strong> shift one weekly Instagram slot to LinkedIn next week, and adapt the Friday blog (strong sign-up driver per click) into a LinkedIn carousel. Pause X promotion of feature posts — engagement is too low to justify the slot until creative is reworked.</p>
+    </div>
+
+    <footer>
+      Reporting structure, KPIs (reach, engagement, click-through, sign-ups) and cadence as designed for the Safe Money launch in Airtable. Figures shown are illustrative placeholders — the campaign was pre-launch — and would be replaced with live data once a campaign runs.
+    </footer>
+  </div>
+</body>
+</html>

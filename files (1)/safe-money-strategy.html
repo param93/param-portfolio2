@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marketing strategy — Safe Money</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F7F5EF; --card: #FFFFFF; --ink: #1A1917; --muted: #6E6B64; --faint: #97938A;
+    --line: #E0DCD2; --line-strong: #D2CDC1; --accent: #14805C; --accent-ink: #0F5E48;
+    --accent-fill: #E4F3EC; --track: #ECE9E1; --radius: 14px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #131311; --card: #1D1D1A; --ink: #EDEAE2; --muted: #9C9A92; --faint: #75736C;
+      --line: #302F2B; --line-strong: #3B3A35; --accent: #3FB489; --accent-ink: #8FD9BE;
+      --accent-fill: #143A2E; --track: #2A2925;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: "Hanken Grotesk", sans-serif; -webkit-font-smoothing: antialiased;
+    padding: 44px 22px 60px; display: flex; justify-content: center;
+  }
+  .wrap { width: 100%; max-width: 960px; }
+
+  header { margin-bottom: 32px; }
+  .eyebrow { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 10px; }
+  header h1 { font-family: "Fraunces", serif; font-weight: 500; font-size: clamp(26px, 4vw, 37px); line-height: 1.1; letter-spacing: -0.015em; }
+  header h1 em { font-style: italic; color: var(--accent-ink); }
+  header p { margin-top: 12px; max-width: 62ch; color: var(--muted); font-size: 15px; line-height: 1.6; }
+
+  .section-label { font-family: "Fraunces", serif; font-size: 18px; font-weight: 500; letter-spacing: -0.01em; margin: 34px 0 16px; }
+
+  /* Build stepper */
+  .steps { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  .step { background: var(--card); border: 1px solid var(--line); border-radius: 11px; padding: 13px 13px 14px; position: relative; }
+  .step .n { font-family: "Fraunces", serif; font-size: 13px; color: var(--accent-ink); font-weight: 600; }
+  .step .t { font-weight: 600; font-size: 13px; margin-top: 4px; line-height: 1.25; }
+  .step .s { font-size: 11px; color: var(--faint); margin-top: 4px; line-height: 1.4; }
+
+  /* Panels */
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 19px 20px; }
+  .panel.wide { grid-column: 1 / -1; }
+  .panel h3 { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 12px; }
+
+  .essence { font-family: "Fraunces", serif; font-weight: 500; font-size: clamp(20px, 3vw, 26px); line-height: 1.2; letter-spacing: -0.01em; }
+  .essence em { font-style: italic; color: var(--accent-ink); }
+  .essence + p { margin-top: 10px; color: var(--muted); font-size: 13.5px; line-height: 1.6; max-width: 68ch; }
+
+  ul.clean { list-style: none; }
+  ul.clean li { font-size: 13.5px; line-height: 1.5; padding: 7px 0 7px 18px; position: relative; border-top: 1px solid var(--line); }
+  ul.clean li:first-child { border-top: none; }
+  ul.clean li::before { content: ""; position: absolute; left: 2px; top: 14px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  ul.clean li b { font-weight: 600; }
+  ul.clean li span { color: var(--faint); }
+
+  .pills { display: flex; flex-wrap: wrap; gap: 7px; }
+  .pillC { font-size: 12.5px; font-weight: 500; padding: 6px 11px; border-radius: 999px; background: var(--accent-fill); color: var(--accent-ink); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); }
+
+  .chan { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-top: 1px solid var(--line); font-size: 13.5px; }
+  .chan:first-child { border-top: none; }
+  .chan .c { font-weight: 600; }
+  .chan .f { font-size: 11.5px; color: var(--faint); }
+
+  .kpi-row { display: flex; justify-content: space-between; align-items: baseline; padding: 9px 0; border-top: 1px solid var(--line); }
+  .kpi-row:first-child { border-top: none; }
+  .kpi-row .m { font-size: 13px; color: var(--muted); max-width: 62%; }
+  .kpi-row .n { font-family: "Fraunces", serif; font-weight: 600; font-size: 17px; letter-spacing: -0.01em; color: var(--ink); }
+
+  .budget .b-row { margin-bottom: 11px; }
+  .budget .b-top { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px; }
+  .budget .b-top .amt { font-weight: 600; }
+  .b-track { height: 7px; background: var(--track); border-radius: 4px; overflow: hidden; }
+  .b-fill { height: 100%; background: var(--accent); border-radius: 4px; }
+  .budget .total { margin-top: 14px; padding-top: 13px; border-top: 1px solid var(--line-strong); display: flex; justify-content: space-between; align-items: baseline; }
+  .budget .total .l { font-weight: 600; font-size: 13.5px; }
+  .budget .total .v { font-family: "Fraunces", serif; font-weight: 600; font-size: 22px; letter-spacing: -0.01em; }
+
+  footer { margin-top: 30px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 12px; color: var(--faint); line-height: 1.6; }
+
+  @media (max-width: 780px) {
+    .steps { grid-template-columns: 1fr 1fr; }
+    .grid { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .rise { opacity: 0; transform: translateY(9px); animation: r .5s cubic-bezier(.2,.7,.2,1) forwards; }
+    .steps.rise { animation-delay: .06s; } .grid.rise { animation-delay: .12s; }
+    @keyframes r { to { opacity: 1; transform: none; } }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="rise">
+      <div class="eyebrow">Safe Money · marketing lead</div>
+      <h1>Marketing strategy, <em>built from scratch</em></h1>
+      <p>Owned the full strategy for a Canadian psychology-first finance app — from market research and positioning through channel planning, campaign design, KPIs, and budget. Documented as the reference framework the whole team executed against.</p>
+    </header>
+
+    <div class="section-label">How it was built</div>
+    <div class="steps rise">
+      <div class="step"><div class="n">01</div><div class="t">Research &amp; audit</div><div class="s">Brand audit, market sizing, competitor + SWOT analysis</div></div>
+      <div class="step"><div class="n">02</div><div class="t">Positioning</div><div class="s">Essence, values, tone of voice, differentiation</div></div>
+      <div class="step"><div class="n">03</div><div class="t">Audience</div><div class="s">Personas + segments, prime early adopter identified</div></div>
+      <div class="step"><div class="n">04</div><div class="t">Content &amp; channels</div><div class="s">Six pillars mapped to a channel mix + cadence</div></div>
+      <div class="step"><div class="n">05</div><div class="t">Campaigns &amp; KPIs</div><div class="s">Flagship campaigns, targets, measurement plan</div></div>
+      <div class="step"><div class="n">06</div><div class="t">Execution system</div><div class="s">Budget, team roles, and a repeatable content engine</div></div>
+    </div>
+
+    <div class="section-label">The strategy</div>
+    <div class="grid rise">
+      <div class="panel wide">
+        <h3>Positioning</h3>
+        <div class="essence">"Money Without <em>The Mental Load</em>"</div>
+        <p>Differentiated on a psychology-first approach — blending AI-driven insight with financial-therapy principles to reduce the mental load of budgeting, rather than competing on transaction tracking. Built on five brand values: simplicity, empathy, trust, inclusivity, and fun.</p>
+      </div>
+
+      <div class="panel">
+        <h3>Target audience</h3>
+        <ul class="clean">
+          <li><b>Millennial parents &amp; couples</b> <span>— overwhelmed by traditional budgeting (ages 27–42)</span></li>
+          <li><b>Finance-anxious individuals</b> <span>— seeking a stress-free, guilt-free tool</span></li>
+          <li><b>Canadian students</b> <span>— "Sarah" archetype, confirmed prime early adopter</span></li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <h3>Competitive edge</h3>
+        <ul class="clean">
+          <li><b>Market tailwind</b> <span>— Canadian AI-app market → US$969.7M by 2030 (33.1% CAGR)</span></li>
+          <li><b>Open gap</b> <span>— post-Mint displacement; rising behavioural-finance acceptance</span></li>
+          <li><b>Positioned vs.</b> <span>YNAB, Monarch, Cleo, Bloom — on AI + therapy, not features</span></li>
+        </ul>
+      </div>
+
+      <div class="panel wide">
+        <h3>Content pillars</h3>
+        <div class="pills">
+          <span class="pillC">Financial education &amp; tips</span>
+          <span class="pillC">User success stories</span>
+          <span class="pillC">Product features &amp; benefits</span>
+          <span class="pillC">Money mindset &amp; wellness</span>
+          <span class="pillC">Community engagement</span>
+          <span class="pillC">Fun &amp; lighthearted</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Channel mix</h3>
+        <div class="chan"><span class="c">Instagram</span><span class="f">3–4 posts + Reels / week</span></div>
+        <div class="chan"><span class="c">LinkedIn</span><span class="f">Thought leadership · 1–2 / week</span></div>
+        <div class="chan"><span class="c">TikTok</span><span class="f">Bite-sized tips · 2–3 / week</span></div>
+        <div class="chan"><span class="c">YouTube</span><span class="f">"Mind &amp; Money" series · 1–2 / mo</span></div>
+        <div class="chan"><span class="c">Blog + email</span><span class="f">SEO hub + weekly digest</span></div>
+        <div class="chan"><span class="c">Paid</span><span class="f">Google Search, Meta, LinkedIn, retargeting</span></div>
+      </div>
+
+      <div class="panel">
+        <h3>Objectives &amp; targets</h3>
+        <div class="kpi-row"><span class="m">New-user acquisition lift by year-end</span><span class="n">+20%</span></div>
+        <div class="kpi-row"><span class="m">Educational content published by Q3</span><span class="n">50+</span></div>
+        <div class="kpi-row"><span class="m">Social following by Q4 2025</span><span class="n">10K+</span></div>
+        <div class="kpi-row"><span class="m">Cost per acquisition target</span><span class="n">≤ $25</span></div>
+        <div class="kpi-row"><span class="m">Trial-to-paid conversion</span><span class="n">15%</span></div>
+      </div>
+
+      <div class="panel wide budget">
+        <h3>Planned budget · Q3–Q4 2025</h3>
+        <div class="b-row"><div class="b-top"><span>Digital advertising (Google, Meta, retargeting)</span><span class="amt">$30K</span></div><div class="b-track"><div class="b-fill" style="width:100%"></div></div></div>
+        <div class="b-row"><div class="b-top"><span>Interactive assessment development</span><span class="amt">$20K</span></div><div class="b-track"><div class="b-fill" style="width:67%"></div></div></div>
+        <div class="b-row"><div class="b-top"><span>"Mind &amp; Money" video production</span><span class="amt">$15K</span></div><div class="b-track"><div class="b-fill" style="width:50%"></div></div></div>
+        <div class="b-row"><div class="b-top"><span>Virtual workshops</span><span class="amt">$13K</span></div><div class="b-track"><div class="b-fill" style="width:43%"></div></div></div>
+        <div class="b-row"><div class="b-top"><span>Content paid promotion</span><span class="amt">$10K</span></div><div class="b-track"><div class="b-fill" style="width:33%"></div></div></div>
+        <div class="total"><span class="l">Total planned marketing budget</span><span class="v">$88K</span></div>
+      </div>
+    </div>
+
+    <footer>
+      Authored as Marketing Lead and documented in Notion as the team's reference framework. Objectives, KPIs, and budget shown are the strategy's planned targets and allocations, not delivered results.
+    </footer>
+  </div>
+</body>
+</html>
